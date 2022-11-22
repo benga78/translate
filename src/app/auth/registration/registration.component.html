@@ -1,0 +1,27 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Regisztráció</mat-card-title>
+    </mat-card-header>
+   
+    <mat-card-content>
+
+        <div class="reg-form">            
+            <mat-form-field appearance="outline">
+                <mat-label>Név</mat-label>
+                <input matInput placeholder="Név" [(ngModel)]="nev">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Email" type="email" [(ngModel)]="email">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Telefonszám</mat-label>
+                <input matInput placeholder="Telefonszám" type="password" [(ngModel)]="telszam">
+            </mat-form-field>
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-button (click)="regisztracio()" color="primary">Regisztráció</button>
+    </mat-card-actions>
+</mat-card>

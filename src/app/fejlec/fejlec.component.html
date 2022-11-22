@@ -1,0 +1,13 @@
+<mat-toolbar>
+    <div>
+        <span>Fordító</span>
+    </div>
+    <div>
+        <span *ngIf="regisztralt()">Regisztrált név: {{loginNev}}</span>
+    </div>
+    <div>
+        <button mat-button (click)="deReg()">
+            <mat-icon>translate</mat-icon>
+        </button>
+    </div>
+</mat-toolbar>
