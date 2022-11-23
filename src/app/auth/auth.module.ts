@@ -4,7 +4,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
 import { MatInputModule } from '@angular/material/input';
 
@@ -23,11 +23,9 @@ import { MatInputModule } from '@angular/material/input';
     AuthRoutingModule,
     MatCardModule,
     MatButtonModule,
-    MatFormFieldModule,
-    
+    MatFormFieldModule,    
     MatInputModule,
-
-
+    ReactiveFormsModule
   ],
   exports: [RegistrationComponent]
 })

@@ -3,7 +3,8 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 import { nyelvekData } from '../model/nyelvekData';
 import { ForditoService } from '../services/fordito.service';
 import { Router } from '@angular/router';
-import { delay } from 'rxjs';
+import { finalize } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-fordito',
@@ -15,10 +16,18 @@ export class ForditoComponent implements OnInit {
   nyelvek: nyelvekData[] | undefined;
   forrasNyelv = 'AUTO';  
   celNyelv = 'hu';
-  forrasSzoveg = "";
-  celSzoveg = "";
 
-  constructor(private forditoService: ForditoService, private authService: AuthService, private router: Router) { }
+  celSzoveg = "";
+  isLoading=false;
+  form: FormGroup;
+
+  constructor(private forditoService: ForditoService, private authService: AuthService, private router: Router) { 
+
+    this.form = new FormGroup({
+      forrasSzoveg: new FormControl('', Validators.required)
+      
+    });
+  }
 
   ngOnInit(): void {
     this.forditoService.getNyelvek().subscribe(data => {
@@ -36,9 +45,9 @@ export class ForditoComponent implements OnInit {
 
   async detektalas() {
     if (this.forrasNyelv === "AUTO") {
-      this.forditoService.detektalas(this.forrasSzoveg).subscribe(m => { this.forrasNyelv = m[0].language});
+      this.forditoService.detektalas(this.form.value.forrasSzoveg).subscribe(m => { this.forrasNyelv = m[0].language});
 
-      await this.sleep(100);
+      await this.sleep(300);
     }
   }
 
@@ -52,9 +61,14 @@ export class ForditoComponent implements OnInit {
     }
     else {
 
+      this.isLoading = true;
+
       await this.detektalas();
 
-      this.forditoService.forditas(this.forrasSzoveg, this.forrasNyelv, this.celNyelv).subscribe(data => this.celSzoveg = data.translatedText)
+      this.forditoService.forditas(this.form.value.forrasSzoveg, this.forrasNyelv, this.celNyelv).
+                            pipe( finalize(()=> this.isLoading=false)).
+                            subscribe(data => this.celSzoveg = data.translatedText)
+
       this.authService.incForditasszam();
     }
 

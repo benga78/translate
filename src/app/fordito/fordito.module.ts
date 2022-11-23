@@ -6,9 +6,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ForditoRoutingModule } from './fordito-routing.module';
 import { ForditoComponent } from './fordito/fordito.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
 
 
 
@@ -23,10 +26,12 @@ import { RouterModule } from '@angular/router';
     MatSelectModule,
     MatInputModule,
     MatCardModule,
+    MatProgressSpinnerModule,
     MatButtonModule,
     ForditoRoutingModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    ReactiveFormsModule,
     
   ]
 })

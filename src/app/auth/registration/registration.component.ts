@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { Form, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-registration',
@@ -9,22 +10,30 @@ import { Router } from '@angular/router';
 })
 export class RegistrationComponent implements OnInit {
 
-  nev="";
-  email="";
-  telszam="";
 
-  constructor(private authService: AuthService, private router:Router) { }
+  form: FormGroup;
+
+  constructor(private authService: AuthService, private router: Router) {
+    this.form = new FormGroup({
+      nev: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required,Validators.email]),
+      telszam: new FormControl('', Validators.required)
+    }
+    )
+  }
 
   ngOnInit(): void {
   }
 
+  get f() { return this.form.controls; }
+
   regisztracio() {
-    
-    this.authService.userReg(this.nev, this.email, this.telszam);
+
+    this.authService.userReg(this.form.value.nev, this.form.value.email, this.form.value.telszam);
     this.router.navigateByUrl('fordito');
 
   }
 
-  
+
 
 }
