@@ -9,8 +9,8 @@ import { ForditoComponent } from './fordito/fordito.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 
@@ -19,9 +19,9 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
   declarations: [
     ForditoComponent
   ],
-  exports:[ForditoComponent],
+  exports: [ForditoComponent],
   imports: [
-    CommonModule, 
+    CommonModule,
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
@@ -32,7 +32,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
-    
+    MatSnackBarModule
+
   ]
 })
 export class ForditoModule { }

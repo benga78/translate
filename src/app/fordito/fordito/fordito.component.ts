@@ -5,6 +5,7 @@ import { ForditoService } from '../services/fordito.service';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-fordito',
@@ -14,18 +15,18 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class ForditoComponent implements OnInit {
 
   nyelvek: nyelvekData[] | undefined;
-  forrasNyelv = 'AUTO';  
+  forrasNyelv = 'AUTO';
   celNyelv = 'hu';
 
   celSzoveg = "";
-  isLoading=false;
+  isLoading = false;
   form: FormGroup;
 
-  constructor(private forditoService: ForditoService, private authService: AuthService, private router: Router) { 
+  constructor(private forditoService: ForditoService, private authService: AuthService, private router: Router, private snackBar: MatSnackBar) {
 
     this.form = new FormGroup({
       forrasSzoveg: new FormControl('', Validators.required)
-      
+
     });
   }
 
@@ -36,7 +37,6 @@ export class ForditoComponent implements OnInit {
 
     });
 
-    //this.authService.resetForditasszam();
   }
 
   sleep(ms: any) {
@@ -45,7 +45,7 @@ export class ForditoComponent implements OnInit {
 
   async detektalas() {
     if (this.forrasNyelv === "AUTO") {
-      this.forditoService.detektalas(this.form.value.forrasSzoveg).subscribe(m => { this.forrasNyelv = m[0].language});
+      this.forditoService.detektalas(this.form.value.forrasSzoveg).subscribe(m => { this.forrasNyelv = m[0].language });
 
       await this.sleep(300);
     }
@@ -54,8 +54,7 @@ export class ForditoComponent implements OnInit {
   async forditas() {
 
     if (!this.authService.csinlahatUjabbForditast()) {
-      alert("Nem csinálhat új fordítást! Átirányítom a regisztrációra");
-
+      this.snackBar.open("Nem csinálhat új fordítást! Átirányítom a regisztrációra", "OK", { duration: 5000 })
       this.router.navigateByUrl('registration');
 
     }
@@ -66,8 +65,8 @@ export class ForditoComponent implements OnInit {
       await this.detektalas();
 
       this.forditoService.forditas(this.form.value.forrasSzoveg, this.forrasNyelv, this.celNyelv).
-                            pipe( finalize(()=> this.isLoading=false)).
-                            subscribe(data => this.celSzoveg = data.translatedText)
+        pipe(finalize(() => this.isLoading = false)).
+        subscribe(data => this.celSzoveg = data.translatedText)
 
       this.authService.incForditasszam();
     }

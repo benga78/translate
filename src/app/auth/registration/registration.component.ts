@@ -16,7 +16,7 @@ export class RegistrationComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {
     this.form = new FormGroup({
       nev: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required,Validators.email]),
+      email: new FormControl('', [Validators.required, Validators.email]),
       telszam: new FormControl('', Validators.required)
     }
     )

@@ -65,7 +65,4 @@ export class AuthService {
 
   }
 
-  resetForditasszam() {
-    localStorage.removeItem(this.forditasokSzamaKey);
-  }
 }
