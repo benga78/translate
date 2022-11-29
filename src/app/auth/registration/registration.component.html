@@ -31,10 +31,12 @@
                         A telefonszámot meg kell adni
                     </mat-error>
                 </mat-form-field>
+
+                <mat-checkbox formControlName="jogNyilatkozat">Adatkezelési nyilatkozat elfogadása</mat-checkbox>
             </div>
         </mat-card-content>
         <mat-card-actions>
-            <button [disabled]="form.invalid" mat-button color="primary">Regisztráció</button>
+            <button [disabled]="form.invalid" mat-button color="primary" type="submit">Regisztráció</button>
         </mat-card-actions>
     </mat-card>
 </form>
