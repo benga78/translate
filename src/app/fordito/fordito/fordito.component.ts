@@ -5,21 +5,27 @@ import { ForditoService } from '../services/fordito.service';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-fordito',
   templateUrl: './fordito.component.html',
   styleUrls: ['./fordito.component.scss']
 })
+
 export class ForditoComponent implements OnInit {
 
+  snackBarVerticalPosition: MatSnackBarVerticalPosition = 'top';
+
   nyelvek: nyelvekData[] | undefined;
+
   forrasNyelv = 'AUTO';
   celNyelv = 'hu';
-
   celSzoveg = "";
-  isLoading = false;
+
+  isForditas = false;
+  isAdatInit = false;
+
   form: FormGroup;
 
   constructor(private forditoService: ForditoService, private authService: AuthService, private router: Router, private snackBar: MatSnackBar) {
@@ -31,11 +37,27 @@ export class ForditoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.forditoService.getNyelvek().subscribe(data => {
-      this.nyelvek = data;
-      this.nyelvek.push({ code: "AUTO", name: "Automatikus detektálás" })
 
-    });
+    this.forditoService.getNyelvek().
+      pipe(finalize(() => this.isAdatInit = true)).
+      subscribe({
+        next: (data) => {
+          this.nyelvek = data;
+          this.nyelvek.push({ code: "AUTO", name: "Automatikus detektálás" })
+
+        },
+        error: (e) => {
+          console.log(e);
+          this.snackBarKiir('Ismeretlen hiba a nyelvek lekérdezésben a szolgáltatás nem használható');
+          this.router.navigateByUrl('/fordito/error');
+        }
+      });
+
+  }
+
+  snackBarKiir(szoveg: string) {
+
+    this.snackBar.open(szoveg, 'OK', { duration: 5000, verticalPosition: this.snackBarVerticalPosition })
 
   }
 
@@ -54,19 +76,28 @@ export class ForditoComponent implements OnInit {
   async forditas() {
 
     if (!this.authService.csinlahatUjabbForditast()) {
-      this.snackBar.open("Nem csinálhat új fordítást! Átirányítom a regisztrációra", "OK", { duration: 5000 })
+      this.snackBarKiir("Nem csinálhat új fordítást! Átirányítom a regisztrációra")
       this.router.navigateByUrl('registration');
 
     }
     else {
 
-      this.isLoading = true;
+      this.isForditas = true;
 
       await this.detektalas();
 
       this.forditoService.forditas(this.form.value.forrasSzoveg, this.forrasNyelv, this.celNyelv).
-        pipe(finalize(() => this.isLoading = false)).
-        subscribe(data => this.celSzoveg = data.translatedText)
+        pipe(finalize(() => this.isForditas = false)).
+        subscribe(
+          {
+            next: (data) => this.celSzoveg = data.translatedText,
+            error: (e) => {
+              console.log(e);
+              this.snackBarKiir('Ismeretlen hiba a fordító szolgáltatásban a szolgáltatás nem használható');
+              this.router.navigateByUrl('/fordito/error');
+
+            }
+          })
 
       this.authService.incForditasszam();
     }

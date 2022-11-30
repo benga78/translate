@@ -9,10 +9,6 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
-
-
-
-
 @NgModule({
   declarations: [RegistrationComponent
   ],
@@ -24,7 +20,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     AuthRoutingModule,
     MatCardModule,
     MatButtonModule,
-    MatFormFieldModule,    
+    MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
     MatCheckboxModule

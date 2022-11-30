@@ -11,13 +11,15 @@ import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ErrorComponent } from './error/error.component';
 
 
 
 
 @NgModule({
   declarations: [
-    ForditoComponent
+    ForditoComponent,
+    ErrorComponent
   ],
   exports: [ForditoComponent],
   imports: [
@@ -32,7 +34,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    
 
   ]
 })

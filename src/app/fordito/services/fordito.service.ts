@@ -15,6 +15,7 @@ export class ForditoService {
   constructor(private http: HttpClient) { }
 
   getNyelvek(): Observable<nyelvekData[]> {
+    
     return this.http.get<nyelvekData[]>(environment.forditoNyelvekUrl)
 
   }

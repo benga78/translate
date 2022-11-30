@@ -21,7 +21,7 @@
                         Az email-t meg kell adni
                     </mat-error>
                     <mat-error *ngIf="form.controls['email'].errors?.['email']">
-                        Az email-t helyesen, @-al kell adni
+                        Az email-t helyesen és @-al kell adni
                     </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="outline">
@@ -32,7 +32,7 @@
                     </mat-error>
                 </mat-form-field>
 
-                <mat-checkbox formControlName="jogNyilatkozat" color="primary">Adatkezelési nyilatkozat elfogadása
+                <mat-checkbox formControlName="jogNyilatkozat" color="primary">Adatkezelési nyilatkozat elfogadása*
                 </mat-checkbox>
             </div>
         </mat-card-content>
