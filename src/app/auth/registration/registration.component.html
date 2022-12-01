@@ -8,7 +8,7 @@
         <div class="reg-form">            
             <mat-form-field appearance="outline">
                 <mat-label>Név</mat-label>
-                <input matInput placeholder="Név" [(ngModel)]="nev">
+                <input matInput placeholder="Név" [(ngModel)]="nev" required minlength="2">
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
@@ -17,7 +17,7 @@
 
             <mat-form-field appearance="outline">
                 <mat-label>Telefonszám</mat-label>
-                <input matInput placeholder="Telefonszám" type="password" [(ngModel)]="telszam">
+                <input matInput placeholder="Telefonszám" type="phone" [(ngModel)]="telszam">
             </mat-form-field>
         </div>
     </mat-card-content>
