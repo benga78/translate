@@ -1,48 +1,59 @@
-<mat-card>
-    <mat-card-header>
-        <mat-card-title>Fordítás</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <div class="form">
-            <mat-form-field appearance="fill">
-                <mat-label>Fordítandó szöveg nyelve</mat-label>
-                <mat-select [(value)]="forrasNyelv">
-                    <mat-option *ngFor="let nyelv of nyelvek" value="{{nyelv.code}}">{{nyelv.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+<form *ngIf="isAdatInit; else loading" [formGroup]="form" (ngSubmit)="forditas()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Fordítás</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="form">
+                <mat-form-field appearance="fill">
+                    <mat-label>Fordítandó szöveg nyelve</mat-label>
+                    <mat-select [(value)]="forrasNyelv">
+                        <mat-option *ngFor="let nyelv of nyelvek" value="{{nyelv.code}}">{{nyelv.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
 
-            <mat-form-field appearance="fill">
-                <mat-label>Fordítandó szöveg</mat-label>
-                <textarea [(ngModel)]="forrasSzoveg" matInput></textarea>
-            </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Fordítandó szöveg</mat-label>
+                    <input matInput formControlName="forrasSzoveg">
+                    <mat-error *ngIf="form.controls['forrasSzoveg'].errors?.['required']">
+                        A szöveget meg kell adni
+                    </mat-error>
 
-            <mat-form-field appearance="fill">
-                <mat-label>Fordított szöveg nyelve</mat-label>
-                <mat-select [(value)]="celNyelv">
-                    <mat-option *ngFor="let nyelv of nyelvek" value="{{nyelv.code}}">{{nyelv.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-    </div>
-    </mat-card-content>
-    <mat-card-actions>
-        <button mat-button (click)="forditas()" color="primary">Fordítás</button>
-    </mat-card-actions>
+                </mat-form-field>
 
-</mat-card>
+                <mat-form-field appearance="fill">
+                    <mat-label>Fordított szöveg nyelve</mat-label>
+                    <mat-select [(value)]="celNyelv">
+                        <mat-option *ngFor="let nyelv of nyelvek" value="{{nyelv.code}}">{{nyelv.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button [disabled]="form.invalid || isForditas" mat-button color="primary">Fordítás</button>
+            <mat-spinner *ngIf="isForditas"></mat-spinner>
+        </mat-card-actions>
+
+    </mat-card>
 
 
-<mat-card>
-    <mat-card-header>
-        <mat-card-title>Fordított szöveg</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <div class="form">
-            <mat-form-field appearance="fill">
-                <textarea matInput readonly>{{celSzoveg}} </textarea>
-            </mat-form-field>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Fordított szöveg</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="form">
+                <mat-form-field appearance="fill">
+                    <textarea matInput readonly>{{celSzoveg}} </textarea>
+                </mat-form-field>
 
-        </div>
-    </mat-card-content>
-</mat-card>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</form>
+
+<ng-template #loading>
+    <mat-spinner></mat-spinner>
+</ng-template>

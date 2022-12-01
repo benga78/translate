@@ -4,13 +4,10 @@ import { RegistrationComponent } from './registration/registration.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
 import { MatInputModule } from '@angular/material/input';
-
-
-
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [RegistrationComponent
@@ -24,10 +21,9 @@ import { MatInputModule } from '@angular/material/input';
     MatCardModule,
     MatButtonModule,
     MatFormFieldModule,
-    
     MatInputModule,
-
-
+    ReactiveFormsModule,
+    MatCheckboxModule
   ],
   exports: [RegistrationComponent]
 })

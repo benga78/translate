@@ -18,7 +18,7 @@ export class ForditoGuard implements CanActivate {
       return true
     }
     else {
-      alert('Önnek regisztárlnia kell, hogy újabb fordítást csinálhasson');
+      alert('Önnek regisztrálnia kell, hogy újabb fordítást csinálhasson');
 
       this.router.navigateByUrl('registration');
 
